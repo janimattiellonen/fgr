@@ -63,14 +63,15 @@ app.get('/api/courses/import', (req, res) => {
 
     $('#radatlistaus tbody tr').each((i, element) => {
       const $rating = $(element).find('td').next();
-      const $course = $(element).find('td').next().next();
-      const url = $course.find('a').attr('href');
+      const $course = $(element).find('td.rataCol').find('a');
+      const url = $course.attr('href');
+      const name = $course.text();
       const ratingUrl = String($rating.find('img').attr('src'));
       const $location = $(element).find('td.paikkaCol');
       const mapUrl = $(element).find('td:last-child').find('a').attr('href');
 
       let courseData = {
-        name: $course.find('a').text(),
+        name: name,
         url: url,
         rating: ratingUrl.substring(
           ratingUrl.lastIndexOf('/') + 1,
@@ -139,7 +140,7 @@ function addCourse(course, connection, callback) {
 }
 
 function getCourses(connection, callback) {
-  connection.query('SELECT * FROM course', callback);
+  connection.query('SELECT * FROM course ORDER BY name ASC', callback);
 }
 
 function getConnection() {

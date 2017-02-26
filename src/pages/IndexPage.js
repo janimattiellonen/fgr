@@ -1,31 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import PersonList from '../components/PersonList';
+import CourseList from '../components/CourseList';
 import styles from './IndexPage.pcss';
 
 const IndexPage = props => {
-  const { persons, deletePerson } = props;
+  const { courses } = props;
   return (
     <section className={styles.root}>
-
-      <Link to="/courses">Courses</Link>
-      <div className={styles.column}>
-        <h2>Young ones</h2>
-        <PersonList deletePerson={deletePerson} persons={persons.filter(p => p.age < 40)} />
-      </div>
-
-      <div className={styles.column}>
-        <h2>Old Ones</h2>
-        <PersonList deletePerson={deletePerson} persons={persons.filterNot(p => p.age < 40)} />
-      </div>
-
+      <CourseList courses={courses} {...props}/>
     </section>
   );
 };
 
 IndexPage.propTypes = {
-
+  courses: ImmutablePropTypes.list.isRequired,
 };
 
 export default IndexPage;
