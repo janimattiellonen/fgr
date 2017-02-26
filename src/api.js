@@ -23,6 +23,25 @@ app.get('/person', (req, res) => {
   res.send(persons);
 });
 
+app.get('/api/courses', (req, res) => {
+  getCourses(getConnection(), (error, results) => {
+    res.send(results.map(row => {
+      return {
+        id: row.id,
+        name: row.name,
+        url: row.url,
+        mapUrl: row.map_url,
+        foundationYear: row.foundation_year,
+        rating: row.rating,
+        holeCount: row.hole_count,
+        city: row.city,
+        createdAt: row.created_at,
+        updatedAt: row.udated_at
+      }
+    }));
+  });
+});
+
 app.get('/api/courses/import', (req, res) => {
 
   const fgrCoursesUrl = 'http://frisbeegolfradat.fi/radat/';
@@ -117,6 +136,10 @@ function addCourse(course, connection, callback) {
     },
     callback
   );
+}
+
+function getCourses(connection, callback) {
+  connection.query('SELECT * FROM course', callback);
 }
 
 function getConnection() {
