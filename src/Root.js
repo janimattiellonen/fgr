@@ -5,7 +5,7 @@ import { Route, IndexRoute } from 'react-router';
 import WebfontLoader from '@dr-kobros/react-webfont-loader';
 import App from './pages/App';
 import IndexPage from './pages/container/IndexPageContainer';
-import CourseList from './components/CourseList';
+import CoursePage from './pages/container/CoursePageContainer';
 
 import { setStatus, setFontStatus } from './ducks/webfont';
 
@@ -23,7 +23,8 @@ const Root = props => {
             <Route path="/" component={App}>
               <IndexRoute component={IndexPage} />
 
-              <Route path="/courses" component={CourseList} />
+              <Route path="course" component={CoursePage} />
+
             </Route>
           </Router>
       </Provider>

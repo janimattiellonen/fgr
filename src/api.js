@@ -23,6 +23,15 @@ app.get('/person', (req, res) => {
   res.send(persons);
 });
 
+app.get('/api/courses/:courseId', (req, res) => {
+    const courseId = req.params.courseId;
+
+    getCourse(courseId, connection, (error, results) => {
+      
+    });
+
+});
+
 app.get('/api/courses', (req, res) => {
   getCourses(getConnection(), (error, results) => {
     res.send(results.map(row => {
@@ -134,6 +143,16 @@ function addCourse(course, connection, callback) {
         streetAddress: course.streetAddress,
         zipcode: course.zipcode,
         country: course.country,
+    },
+    callback
+  );
+}
+
+function getCourse(courseId, connection, callback) {
+  connection.query(
+    'SELECT * FROM course WHERE id = :id',
+    {
+      id: courseId
     },
     callback
   );

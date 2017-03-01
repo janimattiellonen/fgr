@@ -1,9 +1,19 @@
 import { List, Map } from 'immutable';
 import courseService from '../services/course-service';
 
+const COURSE_GET_COURSE = 'COURSE_GET_COURSE';
+const COURSE_GET_COURSE_FAILED = 'COURSE_GET_COURSE_FAILED';
+const COURSE_GET_COURSE_DONE = 'COURSE_GET_COURSE_DONE';
+
 const COURSE_GET_COURSES = 'COURSE_GET_COURSES';
 const COURSE_GET_COURSES_FAILED = 'COURSE_GET_COURSES_FAILED';
 const COURSE_GET_COURSES_DONE = 'COURSE_GET_COURSES_DONE';
+
+export function getCourse(courseId) {
+  return dispatch => {
+    dispatch({type: COURSE_GET_COURSE, payload: null});
+  };
+};
 
 export function getCourses() {
   return dispatch => {
