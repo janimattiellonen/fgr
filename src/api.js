@@ -47,8 +47,8 @@ app.get('/api/courses/import', (req, res) => {
   const fgrCoursesUrl = 'http://frisbeegolfradat.fi/radat/';
 
   if (1==1) {
-    res.send({ok: true, message: 'Data already imported'});
-    return;
+    //res.send({ok: true, message: 'Data already imported'});
+    //return;
   }
   request(fgrCoursesUrl, (error, response, body) => {
 

@@ -7,11 +7,10 @@ const App = props => {
 
   return (
     <div className={styles.root}>
-
       <Helmet
         htmlAttributes={{ "lang": "fi" }}
-        titleTemplate="%s - Hardcore React Training"
-        defaultTitle="Hard Core"
+        titleTemplate="%s - Fgr.fi courses"
+        defaultTitle="Fgr.fi courses"
         meta={[
           {name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
         ]}
@@ -25,7 +24,7 @@ const App = props => {
 
       <div className={styles.inner}>
         <header>
-          <h1>Hardcore App</h1>
+          <h1>Fgr.fi courses</h1>
         </header>
 
         <main>
@@ -33,12 +32,10 @@ const App = props => {
         </main>
 
         <footer>
-          Copyright Dr. Kobros Foundation
+
         </footer>
       </div>
-
     </div>
-
   );
 };
 

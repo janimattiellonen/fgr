@@ -9,7 +9,7 @@ const CourseList = props => {
 
   return (
     <div className={styles.root}>
-      <h1>COURSE LIST</h1>
+      <h1>Courses</h1>
 
       {
         loading &&
