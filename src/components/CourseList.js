@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Link } from 'react-router';
+import { pure } from 'recompose';
 
 import styles from './CourseList.pcss';
-import { pure } from 'recompose';
 
 const CourseList = props => {
   const { courses, loading, error } = props;
@@ -24,7 +25,7 @@ const CourseList = props => {
       {
         courses.map ((course, key) => {
           return (
-            <p key={key}>{course.name}</p>
+            <p key={key}><Link to={`/course/${course.id}`}>{course.name}</Link></p>
           );
         })
       }

@@ -7,6 +7,6 @@ import CoursePage from './pages/container/CoursePageContainer';
 export default [
   <Route key="index" path="/" component={App}>
     <IndexRoute component={IndexPage} />
-    <Route path="course" component={CoursePage} />
+    <Route path="course/:courseId" component={CoursePage} />
   </Route>
 ];

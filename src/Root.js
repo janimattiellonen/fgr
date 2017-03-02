@@ -23,7 +23,7 @@ const Root = props => {
             <Route path="/" component={App}>
               <IndexRoute component={IndexPage} />
 
-              <Route path="course" component={CoursePage} />
+              <Route path="course/:courseId" component={CoursePage} />
 
             </Route>
           </Router>

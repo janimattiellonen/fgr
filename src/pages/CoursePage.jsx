@@ -1,14 +1,39 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import cx from 'classnames';
+
 import styles from './CoursePage.pcss';
 
-const CoursePage = props => {
-  const { courses } = props;
-  return (
-    <section className={styles.root}>
-      <h1>Course page</h1>
-    </section>
-  );
+class CoursePage extends React.Component {
+  componentWillMount() {
+    const { getCourse } = this.props;
+
+    getCourse(this.props.params.courseId);
+  }
+  render() {
+    const { course } = this.props;
+
+    const classes = cx(styles.root,
+      styles.coursePage
+    );
+
+    return (
+      <section className={classes}>
+        {
+          course &&
+          <div>
+              <h1>{course.name}</h1>
+
+              {
+                course.mapUrl &&
+                <img src={course.mapUrl} />
+              }
+
+          </div>
+        }
+      </section>
+    );
+  }
 };
 
 CoursePage.propTypes = {

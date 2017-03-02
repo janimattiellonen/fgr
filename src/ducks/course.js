@@ -12,6 +12,16 @@ const COURSE_GET_COURSES_DONE = 'COURSE_GET_COURSES_DONE';
 export function getCourse(courseId) {
   return dispatch => {
     dispatch({type: COURSE_GET_COURSE, payload: null});
+
+    return courseService.getCourse(courseId)
+      .then(response => dispatch({
+        type: COURSE_GET_COURSE_DONE,
+        payload: response
+      }))
+      .catch(error => dispatch({
+        type: COURSE_GET_COURSE_FAILED,
+        payload: error
+      }));
   };
 };
 
@@ -30,6 +40,7 @@ export function getCourses() {
 }
 
 const defaultState = Map({
+  course: null,
   courses: List(),
   loading: false,
   error: false
@@ -45,7 +56,6 @@ export default function (state = defaultState, action = {}) {
         .set('failed', false);
 
     case COURSE_GET_COURSES_DONE:
-    console.log("foo");
       return state
         .set('loading', false)
         .set('failed', false)
@@ -55,6 +65,10 @@ export default function (state = defaultState, action = {}) {
       return state
         .set('loading', false)
         .set('failed', true);
+
+    case COURSE_GET_COURSE_DONE:
+      return state
+        .set('course', payload);
 
     default:
       return state;
