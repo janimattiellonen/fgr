@@ -18,22 +18,35 @@ app.use(bodyParser.json());
 const generator = generatePerson();
 
 let persons = Array.from('lorem ipsum dolor sit amet sic transit gloria mundi los tussiposcos').map(generator);
+let connection = getConnection();
 
 app.get('/person', (req, res) => {
   res.send(persons);
 });
 
 app.get('/api/courses/:courseId', (req, res) => {
-    const courseId = req.params.courseId;
+  const courseId = req.params.courseId;
 
-    getCourse(courseId, connection, (error, results) => {
-      
-    });
-
+  getCourse(courseId, (error, results) => {
+    res.send(results.map(row => {
+      return {
+        id: row.id,
+        name: row.name,
+        url: row.url,
+        mapUrl: row.map_url,
+        foundationYear: row.foundation_year,
+        rating: row.rating,
+        holeCount: row.hole_count,
+        city: row.city,
+        createdAt: row.created_at,
+        updatedAt: row.udated_at
+      }
+    })[0]);
+  });
 });
 
 app.get('/api/courses', (req, res) => {
-  getCourses(getConnection(), (error, results) => {
+  getCourses((error, results) => {
     res.send(results.map(row => {
       return {
         id: row.id,
@@ -60,11 +73,8 @@ app.get('/api/courses/import', (req, res) => {
     //return;
   }
   request(fgrCoursesUrl, (error, response, body) => {
-
     let courseNames = [];
-    let conn = getConnection();
     let $ = cheerio.load(body);
-    let connection = getConnection();
 
     const fgrCoursesUrl = 'http://frisbeegolfradat.fi/radat/';
 
@@ -113,7 +123,7 @@ app.get('/api/courses/import', (req, res) => {
         courseData.foundationYear = creationYear;
         courseData.content = content;
 
-        addCourse(courseData, connection, (error, result) => {
+        addCourse(courseData, (error, result) => {
           if (error) {
             console.log("Error: " + error);
           }
@@ -126,7 +136,7 @@ app.get('/api/courses/import', (req, res) => {
   res.send({ok: true});
 });
 
-function addCourse(course, connection, callback) {
+function addCourse(course, callback) {
   connection.query(
     `INSERT INTO
         course (name, url, map_url, foundation_year, rating, hole_count, city)
@@ -148,7 +158,7 @@ function addCourse(course, connection, callback) {
   );
 }
 
-function getCourse(courseId, connection, callback) {
+function getCourse(courseId, callback) {
   connection.query(
     'SELECT * FROM course WHERE id = :id',
     {
@@ -158,7 +168,7 @@ function getCourse(courseId, connection, callback) {
   );
 }
 
-function getCourses(connection, callback) {
+function getCourses(callback) {
   connection.query('SELECT * FROM course ORDER BY name ASC', callback);
 }
 
