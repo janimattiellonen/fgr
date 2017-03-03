@@ -6,6 +6,7 @@ import WebfontLoader from '@dr-kobros/react-webfont-loader';
 import App from './pages/App';
 import IndexPage from './pages/container/IndexPageContainer';
 import CoursePage from './pages/container/CoursePageContainer';
+import TimeLinePage from './pages/container/TimeLinePageContainer';
 
 import { setStatus, setFontStatus } from './ducks/webfont';
 
@@ -24,6 +25,7 @@ const Root = props => {
               <IndexRoute component={IndexPage} />
 
               <Route path="course/:courseId" component={CoursePage} />
+              <Route path="timeline" component={TimeLinePage} />
 
             </Route>
           </Router>
