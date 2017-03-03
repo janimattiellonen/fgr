@@ -22,29 +22,46 @@ const TimeLine = props => {
       } else {
         return 0;
       }
-    }).toJS();
+    });
   };
 
   const filteredCourses = filterCourses(courses);
   const sortedCourses = sortCourses(filteredCourses);
 
 
-  const foo = new List(sortedCourses);
+  const earliestCourse = sortedCourses.minBy( course => course.foundationYear);
+  const latestCourse = sortedCourses.maxBy( course => course.foundationYear);
 
-  console.log(foo.get(0));
+  let difference = 0;
 
+  if (earliestCourse && latestCourse) {
+    difference = latestCourse.foundationYear - earliestCourse.foundationYear;
+  }
+
+  const blockWidth = 100 / sortedCourses.count();
+  console.log("count: " + sortedCourses.count());
+  console.log("blockWidth: " + (100 / sortedCourses.count()));
 
   return (
     <div className={styles.root}>
       <h1>Timeline</h1>
 
-      {
-        sortedCourses.map ((course, key) => {
-          return (
-            <p key={key}><Link to={`/course/${course.id}`}>{course.name} ({course.foundationYear})</Link></p>
-          );
-        })
-      }
+      <p>Foo: {difference}</p>
+
+      <div className={styles.blo}>
+
+        {
+
+          sortedCourses.map ((course, key) => {
+            return (
+              <div key={key} className={styles.block} style={{width: `${blockWidth}%`}}></div>
+            );
+          })
+        }
+      </div>
+
+
+
     </div>
   );
 };

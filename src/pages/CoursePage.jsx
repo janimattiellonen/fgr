@@ -23,7 +23,7 @@ class CoursePage extends React.Component {
           course &&
           <div>
               <h1>{course.name}</h1>
-
+              <p><Link to="/">Back to course list</Link></p>
               {
                 course.mapUrl &&
                 <img src={course.mapUrl} />
