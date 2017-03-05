@@ -3,6 +3,7 @@ import { List, Map } from 'immutable';
 import { pure } from 'recompose';
 import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import cx from 'classnames';
 
 import styles from './TimeLine.pcss';
 
@@ -25,6 +26,17 @@ const TimeLine = props => {
     });
   };
 
+  const classes = {
+    styles.block,
+    styles.foo
+  };
+
+  const placeBlock = (blockWidth, position) => {
+    return (
+      <div className={cx(classes)} style={{width: `${blockWidth}px`, left: "100px", top: "25px"}}></div>
+    )
+  };
+
   const filteredCourses = filterCourses(courses);
   const sortedCourses = sortCourses(filteredCourses);
 
@@ -39,19 +51,16 @@ const TimeLine = props => {
   }
 
   const blockWidth = 100 / sortedCourses.count();
-  console.log("count: " + sortedCourses.count());
-  console.log("blockWidth: " + (100 / sortedCourses.count()));
 
   return (
     <div className={styles.root}>
       <h1>Timeline</h1>
 
-      <p>Foo: {difference}</p>
+      <div className={styles.blockContainer}>
 
-      <div className={styles.blo}>
+        {placeBlock(blockWidth, 10)}
 
         {
-
           sortedCourses.map ((course, key) => {
             return (
               <div key={key} className={styles.block} style={{width: `${blockWidth}%`}}></div>
