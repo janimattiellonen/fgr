@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Map } from 'immutable';
+import { List, Map, OrderedMap, Range } from 'immutable';
 import { pure } from 'recompose';
 import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -26,45 +26,69 @@ const TimeLine = props => {
     });
   };
 
-  const classes = {
-    styles.block,
-    styles.foo
-  };
+  const classes = cx(styles.block, {
+    [styles.foo]: true
+});
 
-  const placeBlock = (blockWidth, position) => {
+  const placeBlock = (blockWidth, position, order, key) => {
     return (
-      <div className={cx(classes)} style={{width: `${blockWidth}px`, left: "100px", top: "25px"}}></div>
+      <div key={key} className={classes} style={
+        {
+          background: 'blue',
+          width: `${blockWidth}%`,
+          right: `${(blockWidth * (position))}%`,
+          top: `${(107 + (order - 1) * 25)}px`,
+          background: '#0078a0'
+        }
+      }></div>
     )
   };
 
   const filteredCourses = filterCourses(courses);
   const sortedCourses = sortCourses(filteredCourses);
+  let groupedCourses = new OrderedMap();
 
+  sortedCourses.map (item => {
+    if (!groupedCourses.has(item.foundationYear)) {
+      groupedCourses = groupedCourses.set(item.foundationYear, List([item]));
+    } else {
+      groupedCourses = groupedCourses.set(
+        item.foundationYear,
+        groupedCourses.get(item.foundationYear).concat(item)
+      );
+    }
+  });
 
   const earliestCourse = sortedCourses.minBy( course => course.foundationYear);
   const latestCourse = sortedCourses.maxBy( course => course.foundationYear);
 
   let difference = 0;
+  let blockWidth = 0;
 
   if (earliestCourse && latestCourse) {
     difference = latestCourse.foundationYear - earliestCourse.foundationYear;
+    blockWidth = 100 / (difference + 1);
   }
-
-  const blockWidth = 100 / sortedCourses.count();
 
   return (
     <div className={styles.root}>
       <h1>Timeline</h1>
 
       <div className={styles.blockContainer}>
-
-        {placeBlock(blockWidth, 10)}
+        {
+          difference > 0 &&
+          Range(0, difference + 1).map ((item, key) => {
+            return (<div key={key} className={styles.block} style={{width: `${blockWidth}%`}}>{earliestCourse.foundationYear + key}</div>);
+          })
+        }
 
         {
-          sortedCourses.map ((course, key) => {
-            return (
-              <div key={key} className={styles.block} style={{width: `${blockWidth}%`}}></div>
-            );
+          groupedCourses.map ((courses, year) => {
+            return courses.map ((course, index) => {
+              return (
+                placeBlock(blockWidth, latestCourse.foundationYear - year, index, year + "_" + index)
+              );
+            })
           })
         }
       </div>
